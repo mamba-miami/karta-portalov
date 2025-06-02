@@ -85,18 +85,4 @@
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
         ctx.fill();
         star.y += star.speed;
-        if (star.y > canvas.height) {
-          star.y = 0;
-          star.x = Math.random() * canvas.width;
-        }
-      });
-
-      requestAnimationFrame(animate);
-    }
-
-    window.addEventListener('resize', resize);
-    resize();
-    animate();
-  </script>
-</body>
-</html>
+        if (star.y > canvas
