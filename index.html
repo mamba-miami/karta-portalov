@@ -31,58 +31,108 @@
       position: relative;
     }
 
-    .map-placeholder {
-      margin: 60px auto;
-      width: 80%;
-      height: 400px;
-      border: 3px dashed rgba(140, 91, 220, 0.6);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3em;
-      color: #8c5bdc;
-      background-color: rgba(0, 0, 0, 0.4);
-      position: relative;
-      z-index: 1;
-    }
-
-    .portal {
-      position: fixed;
+    /* Порталы */
+    #portals-container {
+      position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #a66bff, #2c005f);
-      box-shadow: 0 0 15px #b184ff, 0 0 30px #a66bff;
-      animation: pulse 2s infinite ease-in-out;
-      cursor: pointer;
-      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      align-items: center;
+      z-index: 10;
     }
 
-    @keyframes pulse {
-      0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow: 0 0 15px #b184ff, 0 0 30px #a66bff;
+    .portal {
+      position: relative;
+      padding: 15px 30px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #ff0055;
+      border-radius: 10px;
+      color: #fff0f5;
+      font-size: 1.3em;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .portal:hover {
+      background: #ff0055;
+      color: black;
+      transform: scale(1.07);
+      box-shadow: 0 0 18px #ff0080;
+    }
+
+    .portal::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 130%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 30, 30, 0.9);
+      color: #e0e0ff;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 0.95em;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 0 8px rgba(255, 0, 85, 0.5);
+    }
+
+    .portal:hover::after {
+      opacity: 1;
+    }
+
+    /* Звездопад */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 80px;
+      background: linear-gradient(transparent, white);
+      animation: fall linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) translateX(0);
+        opacity: 0;
       }
-      50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        box-shadow: 0 0 25px #c09bff, 0 0 50px #e5d0ff;
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) translateX(200px);
+        opacity: 0;
       }
     }
-  </style> 
+  </style>
 </head>
 <body>
 
   <header>✨ Лабиринт Порталов ✨</header>
 
-  <div class="map-placeholder">
-    Здесь появятся порталы...
+  <div id="portals-container">
+    <a href="#" class="portal" data-tooltip="Тайный алтарь посвящения и глубинной чувственности. Только для избранных.">Храм Алой Жрицы</a>
+    <a href="#" class="portal" data-tooltip="Кибернетический взгляд в инфосферу. Психоделический портал наблюдения.">Всевидящее Око</a>
+    <a href="#" class="portal" data-tooltip="Приют для бывших птеродактилей. Здесь страх превращается в заботу.">Лагерь Птеродактилей</a>
   </div>
 
-  <div class="portal" onclick="openPortal()"></div>
-
+  <!-- Звезды -->
   <script>
-    function
+    for (let i = 0; i < 60; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.left = Math.random() * window.innerWidth + "px";
+      star.style.animationDuration = (1 + Math.random() * 2) + "s";
+      star.style.animationDelay = Math.random() * 5 + "s";
+      document.body.appendChild(star);
+    }
+  </script>
+
+</body>
+</html>
