@@ -1,82 +1,123 @@
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Лабиринт Порталов</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
     }
 
-    /* Порталы */
+    body {
+      font-family: 'Trebuchet MS', sans-serif;
+      background-image: url('https://i.postimg.cc/XqNWJwbd/9YkjNIZ.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #e0e0ff;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px;
+      font-size: 2em;
+      background: red;
+      box-shadow: 0 0 10px #8c5bdc;
+      position: relative;
+      z-index: 2;
+    }
+
     #portals-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       display: flex;
-      flex-direction: column;
-      gap: 25px;
-      align-items: center;
-      z-index: 10;
+      gap: 50px;
+      z-index: 3;
     }
 
     .portal {
-      position: relative;
-      padding: 15px 30px;
-      background: rgba(0, 0, 0, 0.6);
-      border: 2px solid #ff0055;
-      border-radius: 10px;
-      color: #fff0f5;
-      font-size: 1.3em;
-      text-decoration: none;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
       font-weight: bold;
-      transition: all 0.3s ease-in-out;
+      color: white;
+      text-decoration: none;
+      font-size: 0.9em;
+      position: relative;
+      transition: transform 0.3s ease;
       cursor: pointer;
     }
 
     .portal:hover {
-      background: #ff0055;
-      color: black;
-      transform: scale(1.07);
-      box-shadow: 0 0 18px #ff0080;
+      transform: scale(1.1);
     }
 
     .portal::after {
       content: attr(data-tooltip);
       position: absolute;
-      bottom: 130%;
+      bottom: 120%;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(30, 30, 30, 0.9);
-      color: #e0e0ff;
-      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 8px 12px;
       border-radius: 8px;
-      font-size: 0.95em;
-      white-space: nowrap;
+      font-size: 0.8em;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s ease;
-      box-shadow: 0 0 8px rgba(255, 0, 85, 0.5);
+      white-space: nowrap;
     }
 
     .portal:hover::after {
       opacity: 1;
     }
 
-    /* Звездопад */
+    /* Порталы по стихиям */
+    .light {
+      background: radial-gradient(circle, #fff5cc, #ff0055);
+      box-shadow: 0 0 15px #ffe6f0, 0 0 30px #ff66a3;
+    }
+
+    .electric {
+      background: radial-gradient(circle, #66ffff, #003366);
+      box-shadow: 0 0 15px #66ffff, 0 0 30px #00ccff;
+    }
+
+    .earth {
+      background: radial-gradient(circle, #b4d88a, #4a3f28);
+      box-shadow: 0 0 15px #aaff88, 0 0 25px #5f5f2a;
+    }
+
+    /* Снежинки / блёстки */
     .star {
       position: absolute;
       width: 2px;
-      height: 80px;
-      background: linear-gradient(transparent, white);
-      animation: fall linear infinite;
-      opacity: 0.8;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: snowfall linear infinite;
     }
 
-    @keyframes fall {
+    @keyframes snowfall {
       0% {
-        transform: translateY(-100px) translateX(0);
+        transform: translateY(-10px);
         opacity: 0;
       }
       10% {
-        opacity: 1;
+        opacity: 0.6;
       }
       100% {
-        transform: translateY(100vh) translateX(200px);
+        transform: translateY(110vh);
         opacity: 0;
       }
     }
@@ -87,19 +128,18 @@
   <header>✨ Лабиринт Порталов ✨</header>
 
   <div id="portals-container">
-    <a href="#" class="portal" data-tooltip="Тайный алтарь посвящения и глубинной чувственности. Только для избранных.">Храм Алой Жрицы</a>
-    <a href="#" class="portal" data-tooltip="Кибернетический взгляд в инфосферу. Психоделический портал наблюдения.">Всевидящее Око</a>
-    <a href="#" class="portal" data-tooltip="Приют для бывших птеродактилей. Здесь страх превращается в заботу.">Лагерь Птеродактилей</a>
+    <a href="#" class="portal light" data-tooltip="Тайный алтарь света и чувственности">Храм<br>Алой Жрицы</a>
+    <a href="#" class="portal electric" data-tooltip="Кибер-глаз в инфосферу">Всевидящее<br>Око</a>
+    <a href="#" class="portal earth" data-tooltip="Убежище бывших птеродактилей">Лагерь<br>Птеродактилей</a>
   </div>
 
-  <!-- Звезды -->
   <script>
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
       star.className = "star";
       star.style.left = Math.random() * window.innerWidth + "px";
-      star.style.animationDuration = (1 + Math.random() * 2) + "s";
-      star.style.animationDelay = Math.random() * 5 + "s";
+      star.style.animationDuration = (10 + Math.random() * 20) + "s";
+      star.style.animationDelay = Math.random() * 10 + "s";
       document.body.appendChild(star);
     }
   </script>
